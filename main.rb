@@ -2,7 +2,9 @@ require "pry"
 require_relative "functions.rb"
 
 
+gameWord = selectWord
 
+puts gameWord
 
 
 #1
@@ -37,7 +39,7 @@ require_relative "functions.rb"
 # input_lines = File.readlines('words.txt')
 # File.open('dictionary.txt', 'w') do |f|
 #     input_lines.each do |line|
-#     	if line.chomp.length > 5 && line.chomp.length < 13
+#     	if line.chomp.length > 4 && line.chomp.length < 13
 #     		f.write line
 #     	end
 #   end
