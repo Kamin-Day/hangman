@@ -1,10 +1,35 @@
 require "pry"
 require_relative "functions.rb"
 
-
+#Calls a function to set gameWord to a string representing a 
+#word randomly selected from a word dictionary.
+#This is the word the player will be trying to guess
 gameWord = selectWord
 
+#Sets the starting number of guesses
+chancesRemaining = 6
+wordsGuessed = ["a", "b"]
+
+#calls a funtion to set the gameField as a list of hashes with keys
+#representing each character in the game word, with a value of false,
+#untill the letter has been guessed.
+gameField = setPlayField(gameWord)
+lettersInPlay = setListOfLetters(gameWord)
+
+#Calls a function, which shows the user informtion about the current game state
+startRound(chancesRemaining, gameField, wordsGuessed)
+
+#Prompts the user to enter a value to guess 
+#Checks the validity of the guess
+#Asks for a new guess if invalid
+#If valid, sets the user input to "guess"
+guess = validGuess(guess)
+
+
+
 puts gameWord
+
+
 
 
 #1
