@@ -32,14 +32,21 @@ def setListOfLetters(gameWord)
 	end
 	return list
 end
-#Takes in the chances remaining, the current game field, 
-# and a list of letters which have already been used
-# informs the player about the game state at the start of each round.
-def startRound(chances, gameField, used)
-	puts chancesToS(chances) + "       " + guessedToS(used)
-	puts " "
-	puts displayWord(gameField)
-	puts " "
+
+# #Takes in the chances remaining, the current game field, 
+# # and a list of letters which have already been used
+# # informs the player about the game state at the start of each round.
+# def startRound(chances, gameField, used)
+# 	puts chancesToS(chances) + "       " + guessedToS(used)
+# 	puts " "
+# 	puts displayWord(gameField)
+# 	puts " "
+# end
+
+#Calls functions to create a message to display with information 
+# about the current round
+def displayRoundInfo(chances, used)
+	return chancesToS(chances) + "       " + guessedToS(used)
 end
 
 #Takes in a list of letter which have been guess, 
@@ -81,22 +88,48 @@ def displayWord(gameField)
 	return "Your word is... " + displayString
 end
 
+#Prompts the user to enter a guess
+def guessPrompt 
+	return "Guess a single letter:..."
+end
+
 #Grabs and returns user input
 def getGuess 
-	puts "Guess a letter:..."
 	return gets.chomp.to_s
 end
 
-# takes in a string from the user from getGuess,
-# checks to make sure it is valid, with only one character being a letter
-# if it is valid, it returns the valid guess
-# otherwise, it prompts the user to guess again.
-def validGuess(guess)
-	if guess.length > 1 || letter?(guess) == false
-		puts "You can only choose one letter. Numbers or symbols don't work!"
-		validGuess(getGuess)
+# # takes in a string from the user from getGuess,
+# # checks to make sure it is valid, with only one character being a letter
+# # if it is valid, it returns the valid guess
+# # otherwise, it prompts the user to guess again.
+# def validGuess(guess)
+# 	if guess.length > 1 || guess.length < 0 || letter?(guess) == false
+# 		puts "You can only choose one letter. Numbers or symbols don't work!"
+# 		validGuess(getGuess)
+# 	else
+# 		return guess
+# 	end
+# end
+
+#Takes in a guess and checks if it is valid
+#returns false untill guess is valid
+#when valid, returns true
+def guessIsValid(guess) 
+	if guess.length > 1 || guess.length < 1 || letter?(guess) == false
+		return false
+	else 
+		return true
+	end
+end
+
+#Takes in the users guess, and checks if it has been used already
+#if it has already been used, returns false
+#if it is a new option, returns true
+def newOption(guess, lettersGuessed)
+	if lettersGuessed.include? guess
+		return false
 	else
-		return guess
+		return true
 	end
 end
 
@@ -107,6 +140,9 @@ def letter?(guess)
    return guess[/[a-zA-Z]+/] == guess
 end
 
+#Takes in the users guess and a list letters that are in the word
+# if their guess matches, returns true
+# if their guess does not match, returns false
 def checkGuess(guess, correctL) 
 	if correctL.include? guess
 		return true
@@ -134,19 +170,28 @@ def correctGuess(guess, gameField)
 	return gameField
 end
 
+#Returns a statement letting the user know what their guess was,
+# and that it was correct
 def informCorrect(guess)
-	puts "Good work! There is a " + guess + " in your word"
-	puts " "
+	return "Good work! There is a " + guess + " in your word"
 end
 
-#Lets the user know their guess was incorrect
-def incorrectGuess(guess, chances)
-	puts "Sorry! Try again!"
-	puts " "
+#Reduces the number of chances remaining by one
+def incorrectGuess(chances)
 	return chances -= 1
 end
 
+#Returns a statement to let the user know their guess did not match any of the letters in their word
+def informIncorrect
+	return "Sorry! Try again!"
+end
 
+#Takes in the game field
+#Checks to see if the user has won the game
+#If all of the letters have been revealed, 
+# => the player has won and win? returns true
+#If any of the letters have not been revealed,
+# => the player has not won and win? returns false
 def win?(gameField)
 	gameField.each do |c|
 		if c[c.keys[0]] == false
@@ -155,9 +200,27 @@ def win?(gameField)
 	end
 end
 
+#Takes the game word and builds a message to display 
+#If the player was unable to guess their word
+def lose(gameWord) 
+	return 'Game Over! Your word was "' + gameWord + '".'
+end
 
+#Takes the game word and chances remaining to build 
+# a message to display if the player won the game
+def winMessage(gameWord, chancesRemaining) 
+	return 'Congradulations, you won by guessing the word "' + gameWord + '" with ' + chancesRemaining.to_s + ' chances remaining!'
+end
 
+# Returns a statement notifying the player that they have already used a guess
+def canNotReuseGuess
+	return "You've already tried that, pick a different guess"
+end
 
+# Returns a statement notifying the player that their guess is not valis
+def invalidGuess
+	return"Enter a single letter.. Numbers and other symbols don't work!"
+end
 
   # account = row["Account"].chomp
 

@@ -89,6 +89,55 @@ describe "Using A Guess" do
 		result = letter?("~")
 		expect(result).to eq(false)
 	end
+	it "checks validity of guess based on characters and length" do
+		result = guessIsValid("dd")
+		expect(result).to eq(false)
+	end
+	it "checks validity of guess based on characters and length" do
+		result = guessIsValid("")
+		expect(result).to eq(false)
+	end
+	it "checks validity of guess based on characters and length" do
+		result = guessIsValid("d")
+		expect(result).to eq(true)
+	end
+	it "checks to see if a letter has already been used" do
+		result = newOption("d", ["", "a", "b", "c", "d"])
+		expect(result).to eq(false)
+	end
+	it "checks to see if a letter has already been used" do
+		result = newOption("", ["", "a", "b", "c", "d"])
+		expect(result).to eq(false)
+	end
+	it "checks to see if a letter has already been used" do
+		result = newOption("e", ["", "a", "b", "c", "d"])
+		expect(result).to eq(true)
+	end
+end
+describe "Game Sessions" do
+	it "checks if the user has won the game" do
+		result = win?([{"p"=> false},{"o"=> false},{"k"=> false},{"e"=> false},{"m"=> false},{"o"=> false},{"n"=> false}])
+		expect(result).to eq(false)
+	end
+	it "checks if the user has won the game" do
+		result = win?([{"p"=> true},{"o"=> true},{"k"=> true},{"e"=> true},{"m"=> true},{"o"=> true},{"n"=> true}])
+		expect(result).to eq(true)
+	end
+end
+describe "Game Outcome" do
+	it "Makes sure a winning message is displayed with the game word correctly and chances left correctly" do
+		result = winMessage("pokemon", 2)
+		expect(result).to eq('Congradulations, you won by guessing the word "pokemon" with 2 chances remaining!')
+	end
+	it "Makes sure a game over message is displayed, informing the user they have lost and what word they were trying to guess" do
+		result = lose("pokemon")
+		expect(result).to eq('Game Over! Your word was "pokemon".')
+	end
+end
+	
+
+	
+
 
 
 
@@ -106,10 +155,6 @@ describe "Using A Guess" do
 
 	# 	expect(result1).to eq("a")
 	# end
-end
-
-
-
 
 
 
