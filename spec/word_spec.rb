@@ -24,52 +24,73 @@ describe "gameField" do
 		expect(result.length).to eq(7)
 		expect(result).to eq([{"p"=> false},{"o"=> false},{"k"=> false},{"e"=> false},{"m"=> false},{"o"=> false},{"n"=> false}])
 	end
+	it "makes sure a valid list of strings of single letters in returned" do
+		result = setListOfLetters("mississippi")
+
+		expect(result).to eq(["m", "i", "s", "s", "i", "s", "s", "i", "p", "p", "i"])
+	end
 end
 
 describe "Statments" do
 	it "ensures proper informatation about letters guessed is sent to the user" do
 		result = guessedToS(["a", "b", "c", "d", "e"])
-		result2 = guessedToS([])
 
 		expect(result).to eq("You have already guessed: a b c d e ")
-		expect(result2).to eq("You haven't guesed any letters yet.")
+	end
+	it "ensures that no when no letters have been guessed yet, it is displayed properly" do
+		result = guessedToS([])
+
+		expect(result).to eq("You haven't guesed any letters yet.")
 	end
 
 	it "ensures that the user is correctly informed of how many chances they have remaining." do
-		result = chancesToS(0)
-		result2 = chancesToS(4)
+		result = chancesToS(4)
 
-		expect(result).to eq("Game Over!")
-		expect(result2).to eq("You have 4 guesses remaining!")
-	end		
-
-	it "makes sure that guessed letters are displaying correctly" do
+		expect(result).to eq("You have 4 guesses remaining!")
+	end	
+	it "makes sure that guessed letters are displaying correctly if none have yet been correctly guessed" do
 		result = displayWord([{"p"=> false},{"o"=> false},{"k"=> false},{"e"=> false},{"m"=> false},{"o"=> false},{"n"=> false}])
-		result2 = displayWord([{"p"=> true},{"o"=> false},{"k"=> true},{"e"=> false},{"m"=> true},{"o"=> false},{"n"=> false}])
 
-		expect(result).to eq("_______")
-		expect(result2).to eq("p_k_m__")
+		expect(result).to eq("Your word is... _ _ _ _ _ _ _ ")
+	end		
+	it "makes sure that guessed letters are displaying correctly if some have been correctly guessed" do
+		result = displayWord([{"p"=> true},{"o"=> false},{"k"=> true},{"e"=> false},{"m"=> true},{"o"=> false},{"n"=> false}])
+
+		expect(result).to eq("Your word is... p _ k _ m _ _ ")
 	end		
 end
 
 describe "Using A Guess" do
-	it "ensures that a user guess is made up of valid characters, containing only letters" do
-		result1 = letter?("a")
-		result2 = letter?("aa")
-		result3 = letter?("a1")
-		result4 = letter?("1")
-		result5 = letter?("21")
-		result6 = letter?("1.")
-		result7 = letter?("~")
-
-		expect(result1).to eq(true)
-		expect(result2).to eq(true)
-		expect(result3).to eq(false)
-		expect(result4).to eq(false)
-		expect(result5).to eq(false)
-		expect(result6).to eq(false)
-		expect(result7).to eq(false)
+	it "ensures a correct return with one letter" do
+		result = letter?("a")
+		expect(result).to eq(true)
 	end
+	it "ensures a correct return with 2 letters" do
+		result = letter?("aa")
+		expect(result).to eq(true)
+	end
+	it "ensures a correct return with a letter and a number" do
+		result = letter?("a1")
+		expect(result).to eq(false)
+	end
+	it "ensures a correct return with 1 number" do
+		result = letter?("1")
+		expect(result).to eq(false)
+	end
+	it "ensures a correct return with 2 numbers" do
+		result = letter?("21")
+		expect(result).to eq(false)
+	end
+	it "ensures a correct return with 1 number and a character" do
+		result = letter?("1.")
+		expect(result).to eq(false)
+	end
+	it "ensures a correct return with a character" do
+		result = letter?("~")
+		expect(result).to eq(false)
+	end
+
+
 
 	# ===============================
 	# ===   ===  /---\ |==\
@@ -77,15 +98,16 @@ describe "Using A Guess" do
 	# ===.  |\.  |   | |==\
 	# =.    | \  \___/ |__/
 
-	it "ensures that a user guess is valid containing only 1 letter" do
-		result1 = validGuess("a")
-		result2 = validGuess("1a")
-		result3 = validGuess("as")
+	# it "ensures that a user guess is valid containing only 1 letter" do
+	# 	result1 = validGuess("a")
+	# 	result2 = validGuess("1a")
+	# 	result3 = validGuess("as")
 
 
-		expect(result1).to eq("a")
-	end
+	# 	expect(result1).to eq("a")
+	# end
 end
+
 
 
 

@@ -26,13 +26,20 @@ end
 
 #Takes in the game word and returns an array of each letter in the word
 def setListOfLetters(gameWord)
-
+	list = []
+	gameWord.split('').each do |l|
+		list.push(l)
+	end
+	return list
+end
 #Takes in the chances remaining, the current game field, 
 # and a list of letters which have already been used
 # informs the player about the game state at the start of each round.
 def startRound(chances, gameField, used)
 	puts chancesToS(chances) + "       " + guessedToS(used)
+	puts " "
 	puts displayWord(gameField)
+	puts " "
 end
 
 #Takes in a list of letter which have been guess, 
@@ -54,11 +61,7 @@ end
 #Takes in the number of chances remaining,
 #and returns a string informing the player of how many tries they have left.
 def chancesToS(chances)
-	if chances == 0
-		return "Game Over!"
-	else
 	return "You have " + chances.to_s + " guesses remaining!"
-	end
 end
 
 #Takes in the gameField, and checks if each character has yet been
@@ -70,17 +73,17 @@ def displayWord(gameField)
 	displayString = ""
 	gameField.each do |c|
 		if c[c.keys[0]] == false
-			displayString += "_"
+			displayString += "_ "
 		else
-			displayString += c.keys[0]
+			displayString += c.keys[0] + " "
 		end
 	end
-	return displayString
+	return "Your word is... " + displayString
 end
 
 #Grabs and returns user input
 def getGuess 
-	puts "Guess a letter:"
+	puts "Guess a letter:..."
 	return gets.chomp.to_s
 end
 
@@ -103,6 +106,56 @@ end
 def letter?(guess)
    return guess[/[a-zA-Z]+/] == guess
 end
+
+def checkGuess(guess, correctL) 
+	if correctL.include? guess
+		return true
+	else
+		return false
+	end
+end
+
+#Takes in a guess and the letters guessed so far,
+#adds the guess to the list
+#returns the new list
+def addGuessed(guess, wordsGuessed)
+	wordsGuessed.push(guess)
+	return wordsGuessed
+end
+
+#Lets the user know their guess was correct
+#returns an updated game field
+def correctGuess(guess, gameField)
+	gameField.each do |c|
+		if guess == c.keys[0]
+			c[guess] = true
+		end
+	end
+	return gameField
+end
+
+def informCorrect(guess)
+	puts "Good work! There is a " + guess + " in your word"
+	puts " "
+end
+
+#Lets the user know their guess was incorrect
+def incorrectGuess(guess, chances)
+	puts "Sorry! Try again!"
+	puts " "
+	return chances -= 1
+end
+
+
+def win?(gameField)
+	gameField.each do |c|
+		if c[c.keys[0]] == false
+			return false
+		end
+	end
+end
+
+
 
 
 
