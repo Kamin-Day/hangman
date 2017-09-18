@@ -32,7 +32,6 @@ def setListOfLetters(gameWord)
 	end
 	return list
 end
-
 # #Takes in the chances remaining, the current game field, 
 # # and a list of letters which have already been used
 # # informs the player about the game state at the start of each round.
@@ -196,6 +195,8 @@ def win?(gameField)
 	gameField.each do |c|
 		if c[c.keys[0]] == false
 			return false
+		else 
+			return true
 		end
 	end
 end

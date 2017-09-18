@@ -21,7 +21,7 @@ gameField = setPlayField(gameWord)
 
 #Creates an array of letter in the game word to check later
 lettersInPlay = setListOfLetters(gameWord)
-binding.pry
+
 #Checks to see if the game is still in session
 #If the user has no more chances, the game is over
 #If the user has won the game by guessing all of the letters correctly, the game is over
@@ -43,7 +43,7 @@ while chancesRemaining > 0 && win?(gameField) == false do
 	guess = getGuess
 	until guessIsValid(guess) == true && newOption(guess, lettersGuessed) == true do
 		if newOption(guess, lettersGuessed) == false
-			puts canNotReuse
+			puts canNotReuseGuess
 			puts guessPrompt
 			guess = getGuess
 		end
